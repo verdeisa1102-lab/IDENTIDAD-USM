@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Identidad USM - Tienda Oficial</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Chart.js para Estadísticas -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Google Font Inter -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              rose: '#E88D93',
+              rosedark: '#d47379',
+              light: '#fdf8f7',
+              accent: '#d9777f',
+              dark: '#2d3748',
+              muted: '#718096'
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #E88D93;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #d47379;
+    }
+  </style>
+</head>
+<body class="bg-stone-50 text-slate-800 font-sans min-h-screen flex flex-col">
+
+  <!-- TOP ANNOUNCEMENT BAR -->
+  <div class="bg-brand-rose text-white text-xs font-medium py-2 px-4 text-center tracking-wide shadow-sm">
+    🎓 Catálogo Identidad USM • ¡Reserva tu prenda con tu facultad y luce con orgullo! 🎓
+  </div>
+
+  <!-- HEADER / NAVBAR -->
+  <header class="bg-white/90 backdrop-blur-md sticky top-0 z-30 border-b border-rose-100 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-20">
+        
+        <!-- LOGO BRAND -->
+        <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('all')">
+          <div class="w-11 h-11 rounded-full bg-rose-50 border-2 border-brand-rose flex items-center justify-center text-brand-rose shadow-inner">
+            <i class="fa-solid font-bold text-xl fa-shirt"></i>
+          </div>
+          <div>
+            <h1 class="font-bold text-xl tracking-tight text-slate-900 leading-none">IDENTIDAD <span class="text-brand-rose">USM</span></h1>
+            <p class="text-[11px] text-slate-500 tracking-wider font-medium uppercase mt-0.5">Colección Usemista</p>
+          </div>
+        </div>
+
+        <!-- NAV LINKS FOR DESKTOP -->
+        <nav class="hidden md:flex space-x-1 lg:space-x-2 bg-stone-100/80 p-1.5 rounded-full border border-stone-200 text-sm font-medium">
+          <button onclick="filterCategory('all')" id="nav-all" class="category-btn px-4 py-1.5 rounded-full bg-white text-slate-900 shadow-sm transition-all">Todos</button>
+          <button onclick="filterCategory('camisas')" id="nav-camisas" class="category-btn px-4 py-1.5 rounded-full text-slate-600 hover:text-slate-900 transition-all">Camisas & Scrubs</button>
+          <button onclick="filterCategory('hoodies')" id="nav-hoodies" class="category-btn px-4 py-1.5 rounded-full text-slate-600 hover:text-slate-900 transition-all">Hoodies</button>
+          <button onclick="filterCategory('identidad')" id="nav-identidad" class="category-btn px-4 py-1.5 rounded-full text-slate-600 hover:text-slate-900 transition-all">Colección Especial</button>
+        </nav>
+
+        <!-- USER & ADMIN ACTION BUTTONS -->
+        <div class="flex items-center space-x-3">
+          <!-- ADMIN PANEL BUTTON -->
+          <button onclick="openAdminModal()" class="flex items-center space-x-2 text-xs font-semibold px-3 py-2 rounded-xl bg-slate-900 text-white hover:bg-slate-800 transition shadow-sm" title="Acceso Exclusivo para la Fundadora">
+            <i class="fa-solid fa-chart-line text-brand-rose"></i>
+            <span class="hidden sm:inline">Panel Fundadora</span>
+          </button>
+
+          <!-- CART BUTTON -->
+          <button onclick="toggleCart()" class="relative p-2.5 rounded-xl bg-rose-50 border border-rose-200 text-brand-rose hover:bg-rose-100 transition">
+            <i class="fa-solid fa-bag-shopping text-lg"></i>
+            <span id="cart-count" class="absolute -top-1.5 -right-1.5 bg-brand-rose text-white text-[11px] font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-white shadow-sm">0</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- MOBILE CATEGORY NAV BAR -->
+    <div class="md:hidden flex overflow-x-auto px-4 py-2 bg-stone-50 border-t border-stone-200 space-x-2 text-xs font-medium no-scrollbar">
+      <button onclick="filterCategory('all')" id="mnav-all" class="category-mbtn shrink-0 px-3 py-1.5 rounded-full bg-brand-rose text-white">Todos</button>
+      <button onclick="filterCategory('camisas')" id="mnav-camisas" class="category-mbtn shrink-0 px-3 py-1.5 rounded-full bg-white text-slate-700 border border-stone-200">Camisas & Scrubs</button>
+      <button onclick="filterCategory('hoodies')" id="mnav-hoodies" class="category-mbtn shrink-0 px-3 py-1.5 rounded-full bg-white text-slate-700 border border-stone-200">Hoodies</button>
+      <button onclick="filterCategory('identidad')" id="mnav-identidad" class="category-mbtn shrink-0 px-3 py-1.5 rounded-full bg-white text-slate-700 border border-stone-200">Colección Especial</button>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section class="bg-gradient-to-b from-rose-50/60 to-transparent py-10 px-4 text-center border-b border-rose-100/50">
+    <div class="max-w-3xl mx-auto">
+      <span class="inline-block bg-rose-100 text-brand-rosedark text-xs font-semibold uppercase tracking-widest px-3 py-1 rounded-full mb-3">
+        Identidad USM • Edición Limitada
+      </span>
+      <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mb-3">
+        Lleva el orgullo de tu facultad a todas partes
+      </h2>
+      <p class="text-slate-600 text-sm sm:text-base max-w-xl mx-auto leading-relaxed">
+        Elige tu diseño favorito entre camisas, scrubs clínicos y hoodies. Selecciona tu talla, reserva directamente y te contactaremos por WhatsApp.
+      </p>
+    </div>
+  </section>
+
+  <!-- MAIN CATALOG CONTENT -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex-grow w-full">
+    
+    <!-- CATEGORY HEADER & FILTER INFO -->
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 pb-4 border-b border-stone-200 gap-4">
+      <div>
+        <h3 id="current-category-title" class="text-2xl font-bold text-slate-900">Catálogo Completo</h3>
+        <p class="text-slate-500 text-xs mt-1">Haz clic en cualquier producto para ver sus detalles y registrar tu interés.</p>
+      </div>
+
+      <!-- SEARCH BAR -->
+      <div class="relative w-full sm:w-64">
+        <input type="text" id="search-input" onkeyup="handleSearch()" placeholder="Buscar facultad o modelo..." class="w-full pl-9 pr-4 py-2 text-sm bg-white border border-stone-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-rose focus:border-transparent transition shadow-sm">
+        <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-stone-400 text-sm"></i>
+      </div>
+    </div>
+
+    <!-- PRODUCT GRID -->
+    <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      <!-- Dynamic Products Inserted Here -->
+    </div>
+
+    <!-- EMPTY SEARCH STATE -->
+    <div id="empty-state" class="hidden py-16 text-center">
+      <div class="w-16 h-16 bg-stone-100 text-stone-400 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">
+        <i class="fa-solid fa-box-open"></i>
+      </div>
+      <h4 class="text-lg font-semibold text-slate-800">No encontramos productos</h4>
+      <p class="text-slate-500 text-sm mt-1">Intenta con otra palabra clave o categoría.</p>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-slate-900 text-white mt-16 border-t border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+        <div class="flex items-center space-x-3">
+          <div class="w-10 h-10 rounded-full bg-brand-rose flex items-center justify-center text-white">
+            <i class="fa-solid fa-shirt"></i>
+          </div>
+          <div>
+            <h4 class="font-bold text-lg">IDENTIDAD USM</h4>
+            <p class="text-xs text-slate-400">Emprendimiento Universitario Usemista</p>
+          </div>
+        </div>
+        <div class="text-xs text-slate-400 text-center md:text-right">
+          <p>© 2026 Identidad USM. Todos los derechos reservados.</p>
+          <p class="mt-1">Diseñado para la comunidad universitaria de la Universidad Santa María.</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- PRODUCT DETAIL MODAL -->
+  <div id="product-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl relative animate-fade-in">
+      <button onclick="closeProductModal()" class="absolute top-4 right-4 bg-stone-100 hover:bg-stone-200 text-slate-600 rounded-full w-9 h-9 flex items-center justify-center z-10 transition">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+
+      <div id="modal-content" class="p-6">
+        <!-- Content dynamically populated -->
+      </div>
+    </div>
+  </div>
+
+  <!-- SHOPPING CART SLIDE-OVER DRAWER -->
+  <div id="cart-drawer" class="fixed inset-0 z-50 overflow-hidden hidden">
+    <div class="absolute inset-0 bg-slate-900/50 backdrop-blur-xs transition-opacity" onclick="toggleCart()"></div>
+    <div class="fixed inset-y-0 right-0 max-w-full flex pl-10">
+      <div class="w-screen max-w-md bg-white shadow-2xl flex flex-col">
+        
+        <!-- Cart Header -->
+        <div class="p-5 border-b border-stone-200 flex items-center justify-between bg-stone-50">
+          <div class="flex items-center space-x-2">
+            <i class="fa-solid fa-bag-shopping text-brand-rose text-lg"></i>
+            <h3 class="font-bold text-slate-900 text-lg">Tu Reserva</h3>
+          </div>
+          <button onclick="toggleCart()" class="text-slate-400 hover:text-slate-600 p-2">
+            <i class="fa-solid fa-xmark text-xl"></i>
+          </button>
+        </div>
+
+        <!-- Cart Items List -->
+        <div id="cart-items" class="flex-1 overflow-y-auto p-5 space-y-4">
+          <!-- Dynamic Cart Items -->
+        </div>
+
+        <!-- Cart Empty State -->
+        <div id="cart-empty" class="flex-1 flex flex-col items-center justify-center p-6 text-center">
+          <div class="w-16 h-16 bg-rose-50 rounded-full flex items-center justify-center text-brand-rose text-2xl mb-3">
+            <i class="fa-solid fa-basket-shopping"></i>
+          </div>
+          <p class="font-semibold text-slate-800">Tu carrito está vacío</p>
+          <p class="text-xs text-slate-500 mt-1 max-w-xs">Explora el catálogo y añade los productos que deseas reservar.</p>
+        </div>
+
+        <!-- Cart Checkout Form Section -->
+        <div id="cart-footer" class="p-5 border-t border-stone-200 bg-stone-50 hidden">
+          <div class="mb-4">
+            <div class="flex justify-between font-bold text-slate-900 text-base mb-2">
+              <span>Total Estimado:</span>
+              <span id="cart-total-price" class="text-brand-rose">$0.00</span>
+            </div>
+            <p class="text-[11px] text-slate-500">Pago acordado directamente al momento de confirmar por WhatsApp.</p>
+          </div>
+
+          <!-- BUYER DETAILS FORM -->
+          <form id="reservation-form" onsubmit="submitReservation(event)" class="space-y-3">
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">Nombre Completo *</label>
+              <input type="text" id="buyer-name" required placeholder="Ej: María Delgado" class="w-full text-xs p-2.5 bg-white border border-stone-300 rounded-lg focus:ring-1 focus:ring-brand-rose focus:outline-none">
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Cédula / Carnet *</label>
+                <input type="text" id="buyer-id" required placeholder="V-28123456" class="w-full text-xs p-2.5 bg-white border border-stone-300 rounded-lg focus:ring-1 focus:ring-brand-rose focus:outline-none">
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Facultad *</label>
+                <select id="buyer-faculty" required class="w-full text-xs p-2.5 bg-white border border-stone-300 rounded-lg focus:ring-1 focus:ring-brand-rose focus:outline-none">
+                  <option value="">Selecciona...</option>
+                  <option value="FACES">FACES</option>
+                  <option value="Derecho">Derecho</option>
+                  <option value="Ingeniería">Ingeniería</option>
+                  <option value="Arquitectura">Arquitectura</option>
+                  <option value="Odontología">Odontología</option>
+                  <option value="Farmacia">Farmacia</option>
+                  <option value="Est. Internacionales">Est. Internacionales</option>
+                  <option value="Otra">Otra / General</option>
+                </select>
+              </div>
+            </div>
+
+            <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-4 rounded-xl shadow-md transition flex items-center justify-center space-x-2 text-sm mt-2">
+              <i class="fa-brands fa-whatsapp text-lg"></i>
+              <span>Completar Reserva por WhatsApp</span>
+            </button>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ADMIN DASHBOARD MODAL ("Panel Fundadora") -->
+  <div id="admin-modal" class="fixed inset-0 bg-slate-900/70 backdrop-blur-md z-50 flex items-center justify-center p-3 sm:p-6 hidden">
+    <div class="bg-white rounded-2xl max-w-4xl w-full max-h-[92vh] overflow-y-auto shadow-2xl relative border border-stone-200">
+      
+      <!-- Admin PIN Screen (If Locked) -->
+      <div id="admin-login" class="p-8 text-center max-w-sm mx-auto">
+        <div class="w-14 h-14 bg-rose-50 text-brand-rose rounded-full flex items-center justify-center mx-auto mb-4 text-2xl border border-rose-200">
+          <i class="fa-solid fa-user-shield"></i>
+        </div>
+        <h3 class="text-xl font-bold text-slate-900">Panel Privado de Fundadora</h3>
+        <p class="text-xs text-slate-500 mt-1 mb-6">Ingresa la clave para acceder a tus métricas de tráfico e interés de clientes.</p>
+        
+        <form onsubmit="verifyAdminPin(event)" class="space-y-4">
+          <div>
+            <input type="password" id="admin-pin-input" placeholder="Ingresa PIN (Default: 1234)" class="w-full text-center text-lg tracking-widest p-3 bg-stone-50 border border-stone-300 rounded-xl focus:ring-2 focus:ring-brand-rose focus:outline-none">
+          </div>
+          <button type="submit" class="w-full bg-brand-rose hover:bg-brand-rosedark text-white font-bold py-2.5 rounded-xl transition shadow">
+            Entrar al Panel
+          </button>
+          <button type="button" onclick="closeAdminModal()" class="text-xs text-slate-400 hover:text-slate-600 block w-full mt-2">
+            Cancelar
+          </button>
+        </form>
+      </div>
+
+      <!-- Admin Main Content (When Unlocked) -->
+      <div id="admin-dashboard" class="p-6 hidden">
+        
+        <!-- Header -->
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center pb-5 mb-6 border-b border-stone-200 gap-3">
+          <div>
+            <span class="text-[10px] font-bold tracking-widest text-brand-rose uppercase bg-rose-50 px-2.5 py-1 rounded-md">Usemista Analytics</span>
+            <h3 class="text-2xl font-black text-slate-900 mt-1">Métricas de la Tienda</h3>
+          </div>
+          <div class="flex items-center space-x-2">
+            <button onclick="resetAnalytics()" class="text-xs font-semibold px-3 py-1.5 text-rose-600 hover:bg-rose-50 rounded-lg transition border border-rose-200">
+              <i class="fa-solid fa-rotate-right mr-1"></i> Reiniciar Datos
+            </button>
+            <button onclick="closeAdminModal()" class="bg-stone-100 hover:bg-stone-200 text-slate-700 rounded-lg p-2 transition">
+              <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- METRIC CARDS -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+          
+          <!-- Card 1: Visitas Totales -->
+          <div class="bg-stone-50 p-4 rounded-xl border border-stone-200/80 shadow-xs">
+            <div class="flex items-center justify-between text-slate-500 mb-2">
+              <span class="text-xs font-medium">Visitas Totales</span>
+              <i class="fa-solid fa-users text-rose-400 text-sm"></i>
+            </div>
+            <div id="stat-visits" class="text-2xl sm:text-3xl font-black text-slate-900">0</div>
+            <p class="text-[10px] text-slate-400 mt-1">Personas que han entrado</p>
+          </div>
+
+          <!-- Card 2: Clics Totales en Productos -->
+          <div class="bg-stone-50 p-4 rounded-xl border border-stone-200/80 shadow-xs">
+            <div class="flex items-center justify-between text-slate-500 mb-2">
+              <span class="text-xs font-medium">Clics en Productos</span>
+              <i class="fa-solid fa-hand-pointer text-amber-500 text-sm"></i>
+            </div>
+            <div id="stat-clicks" class="text-2xl sm:text-3xl font-black text-slate-900">0</div>
+            <p class="text-[10px] text-slate-400 mt-1">Interacciones de interés</p>
+          </div>
+
+          <!-- Card 3: Producto Favorito -->
+          <div class="bg-stone-50 p-4 rounded-xl border border-stone-200/80 shadow-xs">
+            <div class="flex items-center justify-between text-slate-500 mb-2">
+              <span class="text-xs font-medium">Top Favorito</span>
+              <i class="fa-solid fa-heart text-red-500 text-sm"></i>
+            </div>
+            <div id="stat-favorite" class="text-sm sm:text-base font-bold text-slate-800 truncate">Ninguno aún</div>
+            <p id="stat-favorite-clicks" class="text-[10px] text-brand-rose font-medium mt-1">0 clics</p>
+          </div>
+
+          <!-- Card 4: Reservas Iniciadas -->
+          <div class="bg-stone-50 p-4 rounded-xl border border-stone-200/80 shadow-xs">
+            <div class="flex items-center justify-between text-slate-500 mb-2">
+              <span class="text-xs font-medium">Reservas Creadas</span>
+              <i class="fa-solid fa-bag-shopping text-emerald-500 text-sm"></i>
+            </div>
+            <div id="stat-reservations" class="text-2xl sm:text-3xl font-black text-slate-900">0</div>
+            <p class="text-[10px] text-slate-400 mt-1">Enviadas a WhatsApp</p>
+          </div>
+
+        </div>
+
+        <!-- VISUAL CHART: CLICS POR PRODUCTO -->
+        <div class="bg-stone-50 p-5 rounded-2xl border border-stone-200 mb-8">
+          <h4 class="font-bold text-slate-900 text-sm mb-4 flex items-center">
+            <i class="fa-solid fa-chart-bar text-brand-rose mr-2"></i>
+            Demanda por Prenda (Popularidad por Clics)
+          </h4>
+          <div class="h-64 relative w-full">
+            <canvas id="productClicksChart"></canvas>
+          </div>
+        </div>
+
+        <!-- DETAILED CLICK BREAKDOWN TABLE -->
+        <div class="bg-white rounded-xl border border-stone-200 overflow-hidden">
+          <div class="p-4 bg-stone-50 border-b border-stone-200 flex justify-between items-center">
+            <h4 class="font-bold text-slate-900 text-sm">Ranking de Productos Más Vistos</h4>
+            <span class="text-xs text-slate-500">Actualizado en vivo</span>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-stone-100 text-slate-600 font-semibold uppercase tracking-wider">
+                <tr>
+                  <th class="p-3">Producto</th>
+                  <th class="p-3">Categoría</th>
+                  <th class="p-3">Facultad / Colección</th>
+                  <th class="p-3 text-center">Clics</th>
+                  <th class="p-3 text-right">Precio</th>
+                </tr>
+              </thead>
+              <tbody id="admin-table-body" class="divide-y divide-stone-100">
+                <!-- Dynamic Rows -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- NOTIFICATION TOAST -->
+  <div id="toast" class="fixed bottom-5 right-5 bg-slate-900 text-white text-xs px-4 py-3 rounded-xl shadow-2xl z-50 flex items-center space-x-2 transform translate-y-20 opacity-0 transition-all duration-300">
+    <i id="toast-icon" class="fa-solid fa-circle-check text-emerald-400 text-sm"></i>
+    <span id="toast-message">Notificación</span>
+  </div>
+
+  <!-- JAVASCRIPT APPLICATION LOGIC -->
+  <script>
+    // 1. PRODUCT CATALOG DATA (Extract from USM Catalog)
+    const PRODUCTS = [
+      // CAMISAS & SCRUBS
+      {
+        id: 'camisa-faces',
+        name: 'Camisa FACES',
+        category: 'camisas',
+        faculty: 'FACES',
+        price: 15.00,
+        type: 'Camisa Clásica',
+        image: 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=500&auto=format&fit=crop&q=80',
+        description: 'Camisa de algodón pima con bordado fino de la Facultad de Ciencias Económicas y Sociales (FACES).',
+        sizes: ['S', 'M', 'L', 'XL']
+      },
+      {
+        id: 'camisa-derecho',
+        name: 'Camisa Derecho',
+        category: 'camisas',
+        faculty: 'Derecho',
+        price: 15.00,
+        type: 'Camisa Clásica',
+        image: 'https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=500&auto=format&fit=crop&q=80',
+        description: 'Camisa de excelente confección con la distinción de la Facultad de Derecho de la USM.',
+        sizes: ['S', 'M', 'L', 'XL']
+      },
+      {
+        id: 'camisa-est-internacionales',
+        name: 'Camisa Est. Internacionales',
+        category: 'camisas',
+        faculty: 'Est. Internacionales',
+        price: 15.00,
+        type: 'Camisa Clásica',
+        image: 'https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=500&auto=format&fit=crop&q=80',
+        description: 'Diseño elegante con el estampado minimalista de Estudios Internacionales.',
+        sizes: ['S', 'M', 'L', 'XL']
+      },
+      {
+        id: 'camisa-ingenieria',
+        name: 'Camisa Ingeniería',
+        category: 'camisas',
+        faculty: 'Ingeniería',
+        price: 15.00,
+        type: 'Camisa Clásica',
+        image: 'https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=500&auto=format&fit=crop&q=80',
+        description: 'Prenda cómoda e icónica para los estudiantes de la Facultad de Ingeniería.',
+        sizes: ['S', 'M', 'L', 'XL']
+      },
+      {
+        id: 'scrub-odontologia',
+        name: 'Scrub / Filipina Odontología',
+        category: 'camisas',
+        faculty: 'Odontología',
+        price: 22.00,
+        type: 'Uniforme / Scrub Clínico',
+        image: 'https://images.unsplash.com/photo-1584820927498-cfe5211fd8bf?w=500&auto=format&fit=crop&q=80',
+        description: 'Scrub clínico con cuello en V especial para prácticas clínicas de Odontología USM.',
+        sizes: ['S', 'M', 'L', 'XL']
+      },
+      {
+        id: 'scrub-farmacia',
+        name: 'Scrub Farmacia (Iconografía)',
+        category: 'camisas',
+        faculty: 'Farmacia',
+        price: 22.00,
+        type: 'Uniforme / Scrub Clínico',
+        image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=500&auto=format&fit=crop&q=80',
+        description: 'Scrub blanco con estampado posterior detallado de ilustraciones químicas y farmacéuticas.',
+        sizes: ['S', 'M', 'L', 'XL']
+      },
+      {
+        id: 'camisa-tres-leones',
+        name: 'Camisa "Los Tres Leones"',
+        category: 'identidad',
+        faculty: 'Colección Identidad',
+        price: 18.00,
+        type: 'Edición Especial Oversize',
+        image: 'https://images.unsplash.com/photo-1576995853123-5a10305d93c0?w=500&auto=format&fit=crop&q=80',
+        description: 'Diseño exclusivo con la majestuosa ilustración de los Tres Leones en el espaldar.',
+        sizes: ['S', 'M', 'L', 'XL']
+      },
+      {
+        id: 'camisa-virgencita',
+        name: 'Camisa "Virgencita USM"',
+        category: 'identidad',
+        faculty: 'Colección Identidad',
+        price: 18.00,
+        type: 'Edición Especial',
+        image: 'https://images.unsplash.com/photo-1529374255404-311a2a4f1fd9?w=500&auto=format&fit=crop&q=80',
+        description: 'Símbolo emblemático de fe y tradición usemista en la espalda con acabados artísticos.',
+        sizes: ['S', 'M', 'L', 'XL']
+      },
+
+      // HOODIES
+      {
+        id: 'hoodie-faces',
+        name: 'Hoodie FACES',
+        category: 'hoodies',
+        faculty: 'FACES',
+        price: 32.00,
+        type: 'Hoodie con Capucha',
+        image: 'https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=500&auto=format&fit=crop&q=80',
+        description: 'Suéter abrigado de algodón fleece con bolsillo canguro y bordado FACES.',
+        sizes: ['S', 'M', 'L', 'XL']
+      },
+      {
+        id: 'hoodie-derecho',
+        name: 'Hoodie Derecho (Zip)',
+        category: 'hoodies',
+        faculty: 'Derecho',
+        price: 35.00,
+        type: 'Hoodie con Cierre',
+        image: 'https://images.unsplash.com/photo-1509967419530-da38b4704bc6?w=500&auto=format&fit=crop&q=80',
+        description: 'Hoodie crema con cierre metálico de alta durabilidad y detalles de la Facultad de Derecho.',
+        sizes: ['S', 'M', 'L', 'XL']
+      },
+      {
+        id: 'hoodie-est-internacionales',
+        name: 'Hoodie Est. Internacionales',
+        category: 'hoodies',
+        faculty: 'Est. Internacionales',
+        price: 32.00,
+        type: 'Hoodie con Capucha',
+        image: 'https://images.unsplash.com/photo-1578587018452-892bacefd3f2?w=500&auto=format&fit=crop&q=80',
+        description: 'Hoodie minimalista suave, perfecto para el frío del campus de la USM.',
+        sizes: ['S', 'M', 'L', 'XL']
+      },
+      {
+        id: 'hoodie-arquitectura',
+        name: 'Hoodie Arquitectura & Ingeniería',
+        category: 'hoodies',
+        faculty: 'Arquitectura / Ing.',
+        price: 34.00,
+        type: 'Hoodie con Capucha',
+        image: 'https://images.unsplash.com/photo-1513782724259-2b1710206617?w=500&auto=format&fit=crop&q=80',
+        description: 'Estampado posterior técnico con blueprint e íconos de arquitectura y construcciones.',
+        sizes: ['S', 'M', 'L', 'XL']
+      },
+      {
+        id: 'hoodie-odontologia',
+        name: 'Hoodie Odontología',
+        category: 'hoodies',
+        faculty: 'Odontología',
+        price: 32.00,
+        type: 'Hoodie con Capucha',
+        image: 'https://images.unsplash.com/photo-1509967419530-da38b4704bc6?w=500&auto=format&fit=crop&q=80',
+        description: 'Hoodie unisex tono beige cremoso con tipografía limpia de Odontología.',
+        sizes: ['S', 'M', 'L', 'XL']
+      },
+      {
+        id: 'hoodie-farmacia',
+        name: 'Hoodie Farmacia Ilustrado',
+        category: 'hoodies',
+        faculty: 'Farmacia',
+        price: 35.00,
+        type: 'Hoodie con Capucha Art',
+        image: 'https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=500&auto=format&fit=crop&q=80',
+        description: 'Con mortero, balanza y fórmulas químicas grabadas en el espaldar.',
+        sizes: ['S', 'M', 'L', 'XL']
+      },
+      {
+        id: 'hoodie-tres-leones',
+        name: 'Hoodie "Los Tres Leones"',
+        category: 'identidad',
+        faculty: 'Colección Identidad',
+        price: 36.00,
+        type: 'Hoodie Premium',
+        image: 'https://images.unsplash.com/photo-1578587018452-892bacefd3f2?w=500&auto=format&fit=crop&q=80',
+        description: 'La prenda insignia de Identidad USM. Corte holgado con el diseño impreso en alta resolución.',
+        sizes: ['S', 'M', 'L', 'XL']
+      },
+      {
+        id: 'hoodie-virgencita',
+        name: 'Hoodie "Virgencita USM"',
+        category: 'identidad',
+        faculty: 'Colección Identidad',
+        price: 36.00,
+        type: 'Hoodie Premium',
+        image: 'https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=500&auto=format&fit=crop&q=80',
+        description: 'Hoodie abrigado e icónico con la patrona de la Universidad Santa María.',
+        sizes: ['S', 'M', 'L', 'XL']
+      }
+    ];
+
+    // 2. STATE MANAGEMENT & LOCAL STORAGE
+    let currentCategory = 'all';
+    let cart = [];
+    let analytics = {
+      visits: 0,
+      clicks: {}, // { productId: count }
+      reservations: 0
+    };
+    let chartInstance = null;
+
+    // Load Data on Initialization
+    window.onload = function() {
+      loadAnalyticsData();
+      recordPageVisit();
+      renderProducts();
+      updateCartUI();
+    };
+
+    function loadAnalyticsData() {
+      const stored = localStorage.getItem('identidad_usm_analytics');
+      if (stored) {
+        analytics = JSON.parse(stored);
+      } else {
+        // Initialize default click counters for each product
+        PRODUCTS.forEach(p => { analytics.clicks[p.id] = 0; });
+        saveAnalyticsData();
+      }
+    }
+
+    function saveAnalyticsData() {
+      localStorage.setItem('identidad_usm_analytics', JSON.stringify(analytics));
+    }
+
+    function recordPageVisit() {
+      analytics.visits = (analytics.visits || 0) + 1;
+      saveAnalyticsData();
+    }
+
+    function trackProductClick(productId) {
+      analytics.clicks[productId] = (analytics.clicks[productId] || 0) + 1;
+      saveAnalyticsData();
+      updateAdminDashboardUI();
+    }
+
+    // 3. RENDER PRODUCTS GRID
+    function renderProducts(filterText = '') {
+      const grid = document.getElementById('product-grid');
+      const emptyState = document.getElementById('empty-state');
+      grid.innerHTML = '';
+
+      let filtered = PRODUCTS.filter(p => {
+        const matchesCategory = currentCategory === 'all' || p.category === currentCategory;
+        const matchesSearch = p.name.toLowerCase().includes(filterText.toLowerCase()) || 
+                              p.faculty.toLowerCase().includes(filterText.toLowerCase());
+        return matchesCategory && matchesSearch;
+      });
+
+      if (filtered.length === 0) {
+        emptyState.classList.remove('hidden');
+        return;
+      } else {
+        emptyState.classList.add('hidden');
+      }
+
+      filtered.forEach(product => {
+        const clicksCount = analytics.clicks[product.id] || 0;
+
+        const card = document.createElement('div');
+        card.className = "bg-white rounded-2xl border border-stone-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col group";
+        card.innerHTML = `
+          <!-- Product Image Container -->
+          <div class="relative overflow-hidden bg-stone-100 h-64 cursor-pointer" onclick="openProductModal('${product.id}')">
+            <img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+            <span class="absolute top-3 left-3 bg-white/90 backdrop-blur-xs text-slate-800 text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full shadow-xs">
+              ${product.faculty}
+            </span>
+            <span class="absolute top-3 right-3 bg-stone-900/80 text-white text-[10px] px-2 py-0.5 rounded-full font-medium">
+              <i class="fa-solid fa-eye text-[9px] text-brand-rose mr-1"></i>${clicksCount}
+            </span>
+          </div>
+
+          <!-- Product Details -->
+          <div class="p-5 flex-1 flex flex-col justify-between">
+            <div>
+              <span class="text-[11px] font-semibold text-brand-rose uppercase tracking-wider">${product.type}</span>
+              <h4 class="font-bold text-slate-900 text-lg leading-snug mt-0.5 cursor-pointer hover:text-brand-rose transition" onclick="openProductModal('${product.id}')">
+                ${product.name}
+              </h4>
+              <p class="text-slate-500 text-xs mt-2 line-clamp-2 leading-relaxed">
+                ${product.description}
+              </p>
+            </div>
+
+            <div class="mt-4 pt-3 border-t border-stone-100 flex items-center justify-between">
+              <div>
+                <span class="text-xs text-slate-400 block leading-none">Precio</span>
+                <span class="text-xl font-extrabold text-slate-900">$${product.price.toFixed(2)}</span>
+              </div>
+              <button onclick="openProductModal('${product.id}')" class="bg-rose-50 hover:bg-brand-rose text-brand-rose hover:text-white text-xs font-bold px-4 py-2.5 rounded-xl transition shadow-xs flex items-center space-x-1">
+                <span>Ver & Reservar</span>
+                <i class="fa-solid fa-arrow-right text-[10px]"></i>
+              </button>
+            </div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    // 4. CATEGORY FILTER & SEARCH
+    function filterCategory(cat) {
+      currentCategory = cat;
+      
+      // Update UI Tabs (Desktop)
+      document.querySelectorAll('.category-btn').forEach(btn => {
+        btn.className = "category-btn px-4 py-1.5 rounded-full text-slate-600 hover:text-slate-900 transition-all";
+      });
+      const activeBtn = document.getElementById(`nav-${cat}`);
+      if (activeBtn) {
+        activeBtn.className = "category-btn px-4 py-1.5 rounded-full bg-white text-slate-900 shadow-sm transition-all font-semibold";
+      }
+
+      // Update Mobile Tabs
+      document.querySelectorAll('.category-mbtn').forEach(btn => {
+        btn.className = "category-mbtn shrink-0 px-3 py-1.5 rounded-full bg-white text-slate-700 border border-stone-200";
+      });
+      const mActiveBtn = document.getElementById(`mnav-${cat}`);
+      if (mActiveBtn) {
+        mActiveBtn.className = "category-mbtn shrink-0 px-3 py-1.5 rounded-full bg-brand-rose text-white font-medium";
+      }
+
+      // Update Title
+      const titleMap = {
+        'all': 'Catálogo Completo',
+        'camisas': 'Colección Camisas & Scrubs Clínicos',
+        'hoodies': 'Colección Hoodies Usemistas',
+        'identidad': 'Colección Especial Identidad'
+      };
+      document.getElementById('current-category-title').innerText = titleMap[cat] || 'Catálogo';
+
+      renderProducts(document.getElementById('search-input').value);
+    }
+
+    function handleSearch() {
+      const text = document.getElementById('search-input').value;
+      renderProducts(text);
+    }
+
+    // 5. PRODUCT DETAIL MODAL & CLICK TRACKING
+    function openProductModal(productId) {
+      const product = PRODUCTS.find(p => p.id === productId);
+      if (!product) return;
+
+      // TRACK PRODUCT CLICK IN ANALYTICS!
+      trackProductClick(productId);
+
+      const modalContent = document.getElementById('modal-content');
+      modalContent.innerHTML = `
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Image Section -->
+          <div class="bg-stone-100 rounded-xl overflow-hidden relative">
+            <img src="${product.image}" alt="${product.name}" class="w-full h-80 md:h-full object-cover">
+            <span class="absolute top-3 left-3 bg-brand-rose text-white text-xs font-bold px-3 py-1 rounded-full shadow">
+              ${product.faculty}
+            </span>
+          </div>
+
+          <!-- Options & Details -->
+          <div class="flex flex-col justify-between">
+            <div>
+              <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">${product.type}</span>
+              <h3 class="text-2xl font-black text-slate-900 mt-1">${product.name}</h3>
+              <p class="text-2xl font-bold text-brand-rose mt-2">$${product.price.toFixed(2)}</p>
+
+              <p class="text-slate-600 text-xs mt-3 leading-relaxed">
+                ${product.description}
+              </p>
+
+              <!-- Size Selector -->
+              <div class="mt-6">
+                <label class="block text-xs font-bold text-slate-800 mb-2">Selecciona tu Talla:</label>
+                <div class="flex space-x-2" id="size-selector">
+                  ${product.sizes.map((s, idx) => `
+                    <button type="button" onclick="selectSize('${s}')" class="size-btn px-3.5 py-2 text-xs font-bold rounded-lg border border-stone-300 hover:border-brand-rose transition ${idx === 0 ? 'bg-slate-900 text-white border-slate-900' : 'bg-white text-slate-700'}" data-size="${s}">
+                      ${s}
+                    </button>
+                  `).join('')}
+                </div>
+              </div>
+
+              <!-- Quantity -->
+              <div class="mt-4">
+                <label class="block text-xs font-bold text-slate-800 mb-2">Cantidad:</label>
+                <div class="flex items-center space-x-3">
+                  <button onclick="adjustQty(-1)" class="w-8 h-8 rounded-lg bg-stone-100 text-slate-700 font-bold hover:bg-stone-200">-</button>
+                  <span id="modal-qty" class="font-bold text-sm text-slate-800">1</span>
+                  <button onclick="adjustQty(1)" class="w-8 h-8 rounded-lg bg-stone-100 text-slate-700 font-bold hover:bg-stone-200">+</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Action Button -->
+            <div class="mt-8 pt-4 border-t border-stone-200">
+              <button onclick="addToCartModal('${product.id}')" class="w-full bg-brand-rose hover:bg-brand-rosedark text-white font-bold py-3 px-4 rounded-xl shadow-md transition flex items-center justify-center space-x-2">
+                <i class="fa-solid fa-bag-shopping"></i>
+                <span>Añadir a mi Reserva</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+
+      // Store temp selection on modal
+      modalContent.dataset.selectedSize = product.sizes[0];
+      modalContent.dataset.qty = 1;
+
+      document.getElementById('product-modal').classList.remove('hidden');
+    }
+
+    function selectSize(size) {
+      document.querySelectorAll('.size-btn').forEach(btn => {
+        if (btn.dataset.size === size) {
+          btn.className = "size-btn px-3.5 py-2 text-xs font-bold rounded-lg border border-slate-900 bg-slate-900 text-white transition";
+        } else {
+          btn.className = "size-btn px-3.5 py-2 text-xs font-bold rounded-lg border border-stone-300 bg-white text-slate-700 hover:border-brand-rose transition";
+        }
+      });
+      document.getElementById('modal-content').dataset.selectedSize = size;
+    }
+
+    function adjustQty(delta) {
+      const modal = document.getElementById('modal-content');
+      let qty = parseInt(modal.dataset.qty || 1) + delta;
+      if (qty < 1) qty = 1;
+      modal.dataset.qty = qty;
+      document.getElementById('modal-qty').innerText = qty;
+    }
+
+    function closeProductModal() {
+      document.getElementById('product-modal').classList.add('hidden');
+      renderProducts(document.getElementById('search-input').value); // Re-render to show updated view count
+    }
+
+    // 6. CART MANAGEMENT
+    function addToCartModal(productId) {
+      const product = PRODUCTS.find(p => p.id === productId);
+      const modal = document.getElementById('modal-content');
+      const size = modal.dataset.selectedSize || 'M';
+      const qty = parseInt(modal.dataset.qty || 1);
+
+      // Check if item already exists in cart with same size
+      const existing = cart.find(item => item.id === productId && item.size === size);
+      if (existing) {
+        existing.qty += qty;
+      } else {
+        cart.push({
+          id: product.id,
+          name: product.name,
+          price: product.price,
+          image: product.image,
+          faculty: product.faculty,
+          size: size,
+          qty: qty
+        });
+      }
+
+      closeProductModal();
+      updateCartUI();
+      toggleCart(true); // Open drawer
+      showToast(`¡Añadido! ${product.name} (${size}) a la reserva.`);
+    }
+
+    function removeFromCart(index) {
+      cart.splice(index, 1);
+      updateCartUI();
+    }
+
+    function updateCartUI() {
+      const cartItemsContainer = document.getElementById('cart-items');
+      const cartCountEl = document.getElementById('cart-count');
+      const cartEmptyEl = document.getElementById('cart-empty');
+      const cartFooterEl = document.getElementById('cart-footer');
+      const cartTotalPriceEl = document.getElementById('cart-total-price');
+
+      const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
+      cartCountEl.innerText = totalItems;
+
+      if (cart.length === 0) {
+        cartItemsContainer.innerHTML = '';
+        cartEmptyEl.classList.remove('hidden');
+        cartFooterEl.classList.add('hidden');
+        return;
+      }
+
+      cartEmptyEl.classList.add('hidden');
+      cartFooterEl.classList.remove('hidden');
+      cartItemsContainer.innerHTML = '';
+
+      let totalPrice = 0;
+
+      cart.forEach((item, idx) => {
+        const itemTotal = item.price * item.qty;
+        totalPrice += itemTotal;
+
+        const el = document.createElement('div');
+        el.className = "flex items-center space-x-3 bg-stone-50 p-3 rounded-xl border border-stone-200";
+        el.innerHTML = `
+          <img src="${item.image}" alt="${item.name}" class="w-14 h-14 object-cover rounded-lg border border-stone-200">
+          <div class="flex-1 min-w-0">
+            <h5 class="font-bold text-xs text-slate-900 truncate">${item.name}</h5>
+            <p class="text-[11px] text-slate-500">Talla: <span class="font-bold text-slate-800">${item.size}</span> | Cant: ${item.qty}</p>
+            <p class="text-xs font-extrabold text-brand-rose mt-0.5">$${itemTotal.toFixed(2)}</p>
+          </div>
+          <button onclick="removeFromCart(${idx})" class="text-stone-400 hover:text-red-500 p-1">
+            <i class="fa-solid fa-trash-can text-sm"></i>
+          </button>
+        `;
+        cartItemsContainer.appendChild(el);
+      });
+
+      cartTotalPriceEl.innerText = `$${totalPrice.toFixed(2)}`;
+    }
+
+    function toggleCart(forceOpen = false) {
+      const drawer = document.getElementById('cart-drawer');
+      if (forceOpen) {
+        drawer.classList.remove('hidden');
+      } else {
+        drawer.classList.toggle('hidden');
+      }
+    }
+
+    // 7. SUBMIT RESERVATION TO WHATSAPP
+    function submitReservation(e) {
+      e.preventDefault();
+
+      if (cart.length === 0) {
+        showToast('Tu carrito está vacío.', 'error');
+        return;
+      }
+
+      const name = document.getElementById('buyer-name').value.trim();
+      const idNum = document.getElementById('buyer-id').value.trim();
+      const faculty = document.getElementById('buyer-faculty').value;
+
+      // Track Reservation in Analytics
+      analytics.reservations = (analytics.reservations || 0) + 1;
+      saveAnalyticsData();
+
+      // Format WhatsApp Message
+      let itemsList = cart.map(i => `• *${i.name}* (Talla: ${i.size}) x${i.qty} - $${(i.price * i.qty).toFixed(2)}`).join('%0A');
+      let totalPrice = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+
+      let message = `*¡Hola Identidad USM! Quiero realizar una reserva:*%0A%0A` +
+                    `👤 *Nombre:* ${name}%0A` +
+                    `🆔 *Cédula/Carnet:* ${idNum}%0A` +
+                    `🎓 *Facultad:* ${faculty}%0A%0A` +
+                    `📦 *Productos Solicitados:*%0A${itemsList}%0A%0A` +
+                    `💰 *Total Estimado:* $${totalPrice.toFixed(2)} USD%0A%0A` +
+                    `Quedo a la espera de sus datos para coordinar el pago y entrega. ¡Gracias!`;
+
+      // Phone Number (Default placeholder or sample store number)
+      const phoneNumber = "584120000000"; // Reemplazar con el WhatsApp real de la tienda
+      const waUrl = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${message}`;
+
+      // Open WhatsApp
+      window.open(waUrl, '_blank');
+
+      // Clear Cart
+      cart = [];
+      updateCartUI();
+      toggleCart();
+      showToast('¡Reserva enviada! Te redirigimos a WhatsApp.');
+    }
+
+    // 8. ADMIN PANEL & ANALYTICS LOGIC
+    function openAdminModal() {
+      document.getElementById('admin-modal').classList.remove('hidden');
+    }
+
+    function closeAdminModal() {
+      document.getElementById('admin-modal').classList.add('hidden');
+    }
+
+    function verifyAdminPin(e) {
+      e.preventDefault();
+      const pin = document.getElementById('admin-pin-input').value;
+      
+      // Default PIN: 1234
+      if (pin === '1234') {
+        document.getElementById('admin-login').classList.add('hidden');
+        document.getElementById('admin-dashboard').classList.remove('hidden');
+        updateAdminDashboardUI();
+      } else {
+        showToast('PIN Incorrecto. Intenta con "1234"', 'error');
+      }
+    }
+
+    function updateAdminDashboardUI() {
+      // 1. Metric Cards
+      document.getElementById('stat-visits').innerText = analytics.visits || 0;
+      
+      const totalClicks = Object.values(analytics.clicks).reduce((a, b) => a + b, 0);
+      document.getElementById('stat-clicks').innerText = totalClicks;
+
+      document.getElementById('stat-reservations').innerText = analytics.reservations || 0;
+
+      // Calculate Most Popular Product
+      let topProduct = null;
+      let maxClicks = -1;
+
+      PRODUCTS.forEach(p => {
+        const clicks = analytics.clicks[p.id] || 0;
+        if (clicks > maxClicks) {
+          maxClicks = clicks;
+          topProduct = p;
+        }
+      });
+
+      if (topProduct && maxClicks > 0) {
+        document.getElementById('stat-favorite').innerText = topProduct.name;
+        document.getElementById('stat-favorite-clicks').innerText = `${maxClicks} clics de interés`;
+      } else {
+        document.getElementById('stat-favorite').innerText = 'Sin registros';
+        document.getElementById('stat-favorite-clicks').innerText = '0 clics';
+      }
+
+      // 2. Render Analytics Table
+      const tableBody = document.getElementById('admin-table-body');
+      tableBody.innerHTML = '';
+
+      // Sort Products by Clics Descending
+      const sortedProducts = [...PRODUCTS].sort((a, b) => (analytics.clicks[b.id] || 0) - (analytics.clicks[a.id] || 0));
+
+      sortedProducts.forEach(product => {
+        const clicks = analytics.clicks[product.id] || 0;
+        const tr = document.createElement('tr');
+        tr.className = "hover:bg-stone-50 transition";
+        tr.innerHTML = `
+          <td class="p-3 font-semibold text-slate-800 flex items-center space-x-2">
+            <img src="${product.image}" class="w-8 h-8 rounded object-cover">
+            <span>${product.name}</span>
+          </td>
+          <td class="p-3 text-slate-500 capitalize">${product.category}</td>
+          <td class="p-3 text-slate-500">${product.faculty}</td>
+          <td class="p-3 text-center">
+            <span class="px-2.5 py-1 rounded-full ${clicks > 0 ? 'bg-amber-100 text-amber-800 font-bold' : 'bg-stone-100 text-stone-400'}">
+              ${clicks}
+            </span>
+          </td>
+          <td class="p-3 text-right font-bold text-slate-700">$${product.price.toFixed(2)}</td>
+        `;
+        tableBody.appendChild(tr);
+      });
+
+      // 3. Render / Update Chart.js Bar Chart
+      renderAnalyticsChart(sortedProducts.slice(0, 7)); // Top 7 items
+    }
+
+    function renderAnalyticsChart(topItems) {
+      const ctx = document.getElementById('productClicksChart').getContext('2d');
+      
+      const labels = topItems.map(item => item.name);
+      const data = topItems.map(item => analytics.clicks[item.id] || 0);
+
+      if (chartInstance) {
+        chartInstance.destroy();
+      }
+
+      chartInstance = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'Clics de Interés por Producto',
+            data: data,
+            backgroundColor: '#E88D93',
+            borderColor: '#d47379',
+            borderWidth: 1,
+            borderRadius: 6
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: { precision: 0 }
+            },
+            x: {
+              ticks: {
+                font: { size: 10 }
+              }
+            }
+          }
+        }
+      });
+    }
+
+    function resetAnalytics() {
+      if (confirm('¿Estás segura de reiniciar los contadores de visitas y clics?')) {
+        analytics = { visits: 1, clicks: {}, reservations: 0 };
+        PRODUCTS.forEach(p => { analytics.clicks[p.id] = 0; });
+        saveAnalyticsData();
+        updateAdminDashboardUI();
+        renderProducts();
+        showToast('Métricas reiniciadas correctamente.');
+      }
+    }
+
+    // 9. TOAST NOTIFICATION UTILITY
+    function showToast(msg, type = 'success') {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toast-message');
+      const toastIcon = document.getElementById('toast-icon');
+
+      toastMsg.innerText = msg;
+      if (type === 'error') {
+        toastIcon.className = "fa-solid fa-circle-exclamation text-rose-400 text-sm";
+      } else {
+        toastIcon.className = "fa-solid fa-circle-check text-emerald-400 text-sm";
+      }
+
+      toast.classList.remove('translate-y-20', 'opacity-0');
+      
+      setTimeout(() => {
+        toast.classList.add('translate-y-20', 'opacity-0');
+      }, 3500);
+    }
+  </script>
+</body>
+</html>
